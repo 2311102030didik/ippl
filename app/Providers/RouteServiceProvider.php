@@ -61,4 +61,17 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
         });
     }
+
+    protected function removeIndexFromUrl()
+    {
+        if (Str::contains(request()->getRequestUri(), '/index.php/')) {
+            $url = str_replace('index.php/', '', request()->getRequestUri());
+
+            if (strlen($url) > 0) {
+                header("Location: $url", true, 301);
+                exit;
+            }
+        }
+    }
+
 }
