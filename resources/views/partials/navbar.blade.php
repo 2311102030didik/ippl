@@ -1,27 +1,19 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-        <a class="navbar-brand" href="/">zona dieng</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-lg navbar-light fixed-top py-4" data-navbar-on-scroll="data-navbar-on-scroll">
+        <div class="container">
+          <a class="navbar-brand" href="/">
+            <img src="assets/img/logo-kebunkita.png" height="60" alt="logo" />
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
+            aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav mx-auto">
-                <li class="nav-item">
-                    <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" href="/">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ Request::is('about') ? 'active' : '' }}" href="/about">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ Request::is('posts') ? 'active' : '' }}" href="/posts">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ Request::is('categories') ? 'active' : '' }}" href="/categories">
-                        Categories
-                    </a>
-                </li>
+          </button>
+          <div class="collapse navbar-collapse mt-3 mt-lg-0" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto align-items-lg-center align-items-start">
+              <li class="nav-item px-3"><a class="nav-link fw-medium" href="/">Home</a></li>
+              <li class="nav-item px-3"><a class="nav-link fw-medium" href="/posts">Blog</a></li>
+              <li class="nav-item px-3"><a class="nav-link fw-medium" href="/categories">Category</a></li>
             </ul>
+          </div>
         </div>
-    </div>
-</nav>
+      </nav>

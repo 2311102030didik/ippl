@@ -18,7 +18,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="assets/img/logo.png">
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/logo.png">
 
-    <title>zona dieng  | {{ $title }}</title>
+    <title>kebun kita| {{ $title }}</title>
     
     
   </head>
