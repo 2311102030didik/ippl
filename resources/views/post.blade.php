@@ -16,18 +16,33 @@
             </p>
 
             <!-- Gambar Post -->
-            @php
-                $imageUrl = $post->image 
-                    ? asset('storage/' . $post->image) 
-                    : 'https://source.unsplash.com/1200x400/?' . urlencode($post->category->name);
-            @endphp
+             @php
+    use Illuminate\Support\Str;
 
-            <div style="max-height: 400px; overflow: hidden;">
-                <img src="{{ $imageUrl }}" 
-                     alt="Image for category {{ $post->category->name }}" 
-                     class="img-fluid w-100" 
-                     style="height:400px; object-fit:cover; margin-top: 1rem;">
-            </div>
+    if ($post->image) {
+       
+        if (Str::startsWith($post->image, 'http')) {
+            $imageUrl = $post->image;
+        } else {
+           
+            $imageUrl = asset('storage/' . $post->image);
+        }
+    } else {
+        
+        $imageUrl = "https://picsum.photos/1200/400?random=" . rand(1, 9999);
+    }
+@endphp
+
+<div style="max-height: 400px; overflow: hidden;">
+    <img src="{{ $imageUrl }}"
+         alt="Image for {{ $post->title }}"
+         class="img-fluid w-100 rounded"
+         style="height:400px; object-fit:cover; margin-top:1rem;">
+</div>
+
+
+
+           
 
             <!-- Konten Post -->
             <article class="my-3 fs-5">

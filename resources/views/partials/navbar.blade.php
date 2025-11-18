@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light fixed-top py-4" data-navbar-on-scroll="data-navbar-on-scroll">
         <div class="container">
           <a class="navbar-brand" href="/">
-            <img src="assets/img/logo-kebunkita.png" height="60" alt="logo" />
+            <img src="{{ asset('assets/img/logo-kebunkita.png') }}" height="60" alt="logo" />
           </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 

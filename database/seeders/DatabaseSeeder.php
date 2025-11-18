@@ -21,23 +21,29 @@ class DatabaseSeeder extends Seeder
 
         // Kategori manual
         Category::create([
-            'name' => 'homestay',
-            'slug' => 'homestay'
+            'name' => 'a',
+            'slug' => 'a',
+            'image' => 'assets/img/category/kimberly-farmer-lUaaKCUANVI-unsplash.jpg',
         ]);
 
         Category::create([
-            'name' => 'wisata',
-            'slug' => 'tempat-wisata'
+            'name' => 'b',
+            'slug' => 'b',
+            'image' => 'assets/img/category/kimberly-farmer-lUaaKCUANVI-unsplash.jpg'
         ]);
 
         Category::create([
-            'name' => 'Personal',
-            'slug' => 'personal'
+            'name' => 'c',
+            'slug' => 'c',
+            'image' => 'assets/img/category/kimberly-farmer-lUaaKCUANVI-unsplash.jpg'
         ]);
 
-        // Post pakai kategori random dari yang sudah ada
-        Post::factory(20)->create([
+
+          Post::factory(20)->create([
             'user_id' => $user->id // semua post ditulis oleh user "embuh"
         ]);
+
+      
+        
     }
 }
