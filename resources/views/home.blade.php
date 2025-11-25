@@ -14,6 +14,8 @@
 
     <!-- Styles -->
     <link href="assets/css/theme.css" rel="stylesheet" />
+    <!-- custom overrides -->
+    <link href="/css/style.css" rel="stylesheet" />
   </head>
 
   <body>
