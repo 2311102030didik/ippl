@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="id">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -10,6 +10,8 @@
 
     {{-- Bootstrap Icons --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <!-- Font Awesome (icons used across site) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pY1b0xv4Z8b8+qJp1I2hXwzGQ0+s3q8UO2q6yBq5pJm2hK+3Yc/6m6oV2k2x+e2I7fQ2oZ4VQ/9O4M9iEoQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     {{-- My Style --}}
     <!-- theme base (if available) -->
@@ -22,7 +24,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="assets/img/logo.png">
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/logo.png">
 
-    <title>kebun kita| {{ $title }}</title>
+    <title>Kebun Kita — {{ $title }}</title>
     
     
   </head>
@@ -35,5 +37,8 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <!-- Optional theme scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="{{ asset('assets/js/theme.js') }}"></script>
   </body>
 </html>

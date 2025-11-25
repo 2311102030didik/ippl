@@ -12,7 +12,7 @@
 
     <div class="collapse navbar-collapse mt-3 mt-lg-0" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto align-items-lg-center align-items-start gap-2">
-        <li class="nav-item"><a class="nav-link fw-medium" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link fw-medium" href="/">Beranda</a></li>
         <li class="nav-item"><a class="nav-link fw-medium" href="/posts">Blog</a></li>
         <li class="nav-item"><a class="nav-link fw-medium" href="/categories">Categories</a></li>
         <!-- contact removed (not used) -->
