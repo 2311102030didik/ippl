@@ -7,12 +7,14 @@
             <!-- Judul Post -->
             <h2 class="mb-3">{{ $post->title }}</h2>
 
-            <!-- Author & Category -->
-            <p>
-                By <a href="{{ route('posts.index', ['author' => $post->author->username]) }}"
-                      class="text-decoration-none">{{ $post->author->name }}</a>
-                in <a href="{{ route('posts.index', ['category' => $post->category->slug]) }}"
-                      class="text-decoration-none">{{ $post->category->name }}</a>
+            <!-- Author & Category (Indonesian) -->
+            @php
+                $readingTime = ceil(str_word_count(strip_tags($post->body)) / 200);
+            @endphp
+            <p class="text-muted mb-2">
+                Oleh <a href="{{ route('posts.index', ['author' => $post->author->username]) }}" class="text-decoration-none">{{ $post->author->name }}</a>
+                • {{ $post->created_at->isoFormat('D MMMM YYYY') }} • {{ $readingTime }} menit baca
+                • di <a href="{{ route('posts.index', ['category' => $post->category->slug]) }}" class="text-decoration-none">{{ $post->category->name }}</a>
             </p>
 
             <!-- Gambar Post -->
@@ -46,7 +48,7 @@
                 {!! $post->body !!}
             </article>
 
-            <a href="{{ route('posts.index') }}" class="d-block mt-4 text-decoration-none">Back to Posts</a>
+            <a href="{{ route('posts.index') }}" class="d-block mt-4 text-decoration-none">Kembali ke Semua Post</a>
         </div>
     </div>
 

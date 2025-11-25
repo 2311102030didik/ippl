@@ -11,12 +11,12 @@ class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        // Create a realistic site admin user
+        // User manual (keep original 'embuh' account as requested)
         $user = User::create([
-            'name' => 'Admin Kebun Kita',
-            'username' => 'admin',
-            'email' => 'admin@kebunkita.local',
-            'password' => bcrypt('password')
+            'name' => 'embuh',
+            'username' => 'embuh',
+            'email' => 'embuh@gmail.com',
+            'password' => bcrypt('12345')
         ]);
 
         // Categories used on the site (Indonesian)
