@@ -39,7 +39,7 @@
                 }
             @endphp
 
-            <div style="max-height: 400px; overflow: hidden;">
+            <div class="post-hero aspect-banner">
                 <img src="{{ $imageUrl }}" alt="{{ $posts[0]->category->name }}" class="img-fluid">
             </div>
 
@@ -73,8 +73,7 @@
                 @foreach ($posts->skip(1) as $post)
                     <div class="col-md-4 mb-3">
                         <div class="card">
-                            <div class="position-absolute px-3 py-2"
-                                 style="background-color: rgba(0, 0, 0, 0.7)">
+                               <div class="position-absolute post-badge px-3 py-2">
                                 <a href="/posts?category={{ $post->category->slug }}"
                                    class="text-decoration-none text-white">
                                     {{ $post->category->name }}
@@ -91,7 +90,9 @@
                                 }
                             @endphp
 
-                            <img src="{{ $imageUrl }}" alt="{{ $post->category->name }}" class="card-img-top">
+                            <div class="post-hero aspect-card">
+                                <img src="{{ $imageUrl }}" alt="{{ $post->title }}" class="img-fluid">
+                            </div>
 
                             <div class="card-body">
                                 <h5 class="card-title">{{ $post->title }}</h5>

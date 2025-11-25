@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 
     {{-- My Style --}}
+    <!-- theme base (if available) -->
+    <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
+
+    {{-- My Style (overrides) --}}
     <link rel="stylesheet" href="/css/style.css">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/img/logo.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/img/logo.png">

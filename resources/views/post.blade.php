@@ -33,11 +33,8 @@
     }
 @endphp
 
-<div style="max-height: 400px; overflow: hidden;">
-    <img src="{{ $imageUrl }}"
-         alt="Image for {{ $post->title }}"
-         class="img-fluid w-100 rounded"
-         style="height:400px; object-fit:cover; margin-top:1rem;">
+<div class="post-hero aspect-banner mb-3">
+    <img src="{{ $imageUrl }}" alt="Image for {{ $post->title }}" class="img-fluid">
 </div>
 
 
@@ -45,7 +42,7 @@
            
 
             <!-- Konten Post -->
-            <article class="my-3 fs-5">
+            <article class="my-3 fs-5" style="line-height: 1.75; font-size:1.05rem;">
                 {!! $post->body !!}
             </article>
 
