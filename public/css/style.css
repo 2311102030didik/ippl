@@ -232,3 +232,24 @@ body {
     .navbar .brand-text { display: none; } /* show only icon on tiny screens */
 }
 
+/* --- Footer --- */
+.site-footer{
+    background: linear-gradient(180deg, #0b6a50, #083f2b);
+    color: rgba(255,255,255,0.95);
+    padding: 3rem 0 2rem;
+}
+.site-footer a { color: rgba(255,255,255,0.95); text-decoration: none; }
+.site-footer a:hover { color: var(--accent-500); text-decoration: underline; }
+.site-footer .footer-brand { display:flex; gap:.75rem; align-items:center; font-weight:700; }
+.site-footer .footer-brand img { height:44px; width:auto; }
+.site-footer .footer-links h5 { color: rgba(255,255,255,0.95); font-weight:700; margin-bottom:.75rem; }
+.site-footer .footer-links ul { padding-left:0; list-style:none; }
+.site-footer .footer-bottom { padding-top:1.25rem; border-top: 1px solid rgba(255,255,255,0.06); margin-top:1.5rem; }
+.site-footer .social-icons a { margin-right:.5rem; display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:8px; background: rgba(255,255,255,0.06); }
+.site-footer .social-icons a svg, .site-footer .social-icons a i { color:#fff; }
+
+@media (max-width:768px) {
+    .site-footer { padding: 2rem 0; }
+    .site-footer .footer-brand img { height:38px; }
+}
+
