@@ -130,7 +130,6 @@
             <div class="col-6 col-md-3 col-lg-2 footer-links">
               <h5 class="mb-3">Dukungan</h5>
               <ul class="list-unstyled">
-                <li class="mb-2"><a href="/contact">Kontak</a></li>
                 <li class="mb-2"><a href="/privacy">Kebijakan Privasi</a></li>
                 <li class="mb-2"><a href="/terms">Syarat & Ketentuan</a></li>
               </ul>

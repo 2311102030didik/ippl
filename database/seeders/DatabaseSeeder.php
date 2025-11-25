@@ -11,31 +11,31 @@ class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        // User manual
+        // Create a realistic site admin user
         $user = User::create([
-            'name' => 'embuh',
-            'username' => 'embuh',
-            'email' => 'embuh@gmail.com',
-            'password' => bcrypt('12345')
+            'name' => 'Admin Kebun Kita',
+            'username' => 'admin',
+            'email' => 'admin@kebunkita.local',
+            'password' => bcrypt('password')
         ]);
 
-        // Kategori manual
+        // Categories used on the site (Indonesian)
         Category::create([
-            'name' => 'a',
-            'slug' => 'a',
-            'image' => 'assets/img/category/kimberly-farmer-lUaaKCUANVI-unsplash.jpg',
-        ]);
-
-        Category::create([
-            'name' => 'b',
-            'slug' => 'b',
-            'image' => 'assets/img/category/kimberly-farmer-lUaaKCUANVI-unsplash.jpg'
+            'name' => 'Tanaman Hias',
+            'slug' => 'tanaman-hias',
+            'image' => 'assets/img/category/icon1.png',
         ]);
 
         Category::create([
-            'name' => 'c',
-            'slug' => 'c',
-            'image' => 'assets/img/category/kimberly-farmer-lUaaKCUANVI-unsplash.jpg'
+            'name' => 'Hidroponik',
+            'slug' => 'hidroponik',
+            'image' => 'assets/img/category/icon2.png'
+        ]);
+
+        Category::create([
+            'name' => 'Pupuk & Kompos',
+            'slug' => 'pupuk-kompos',
+            'image' => 'assets/img/category/icon3.png'
         ]);
 
 

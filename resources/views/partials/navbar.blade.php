@@ -15,9 +15,7 @@
         <li class="nav-item"><a class="nav-link fw-medium" href="/">Home</a></li>
         <li class="nav-item"><a class="nav-link fw-medium" href="/posts">Blog</a></li>
         <li class="nav-item"><a class="nav-link fw-medium" href="/categories">Categories</a></li>
-        <li class="nav-item d-none d-lg-block">
-          <a class="btn btn-outline-primary ms-2" href="/contact" role="button">Contact</a>
-        </li>
+        <!-- contact removed (not used) -->
       </ul>
     </div>
   </div>
