@@ -44,6 +44,19 @@
             </div>
 
             <div class="card-body text-center">
+                {{-- featured meta: author + date + reading time --}}
+                @php
+                    $first = $posts[0];
+                    $readingTime = ceil(str_word_count(strip_tags($first->body)) / 200);
+                    $authorInitials = collect(explode(' ', trim($first->author->name)))->map(function($n){ return strtoupper(substr($n,0,1)); })->take(2)->implode('');
+                @endphp
+                <div class="post-meta justify-content-center">
+                    <div class="author-avatar">{{ $authorInitials }}</div>
+                    <div>
+                        <div class="small">By <a class="text-decoration-none text-dark fw-bold" href="/posts?author={{ $first->author->username }}">{{ $first->author->name }}</a></div>
+                        <div class="small text-muted">{{ $first->created_at->format('M d, Y') }} · {{ $readingTime }} min read</div>
+                    </div>
+                </div>
                 <h5 class="card-title">
                     <a href="/posts/{{ $posts[0]->slug }}" class="text-decoration-none text-dark">
                         {{ $posts[0]->title }}
@@ -63,7 +76,7 @@
                     </small>
                 </p>
 
-                <p class="card-text">{{ $posts[0]->excerpt }}</p>
+                <p class="card-text card-excerpt">{{ $posts[0]->excerpt }}</p>
                 <a href="/posts/{{ $posts[0]->slug }}" class="text-decoration-none btn btn-primary">Read more</a>
             </div>
         </div>
@@ -96,6 +109,17 @@
 
                             <div class="card-body">
                                 <h5 class="card-title">{{ $post->title }}</h5>
+                                @php
+                                    $readingTime = ceil(str_word_count(strip_tags($post->body)) / 200);
+                                    $initials = collect(explode(' ', trim($post->author->name)))->map(function($n){ return strtoupper(substr($n,0,1)); })->take(2)->implode('');
+                                @endphp
+                                <div class="post-meta">
+                                    <div class="author-avatar">{{ $initials }}</div>
+                                    <div>
+                                        <a href="/posts?author={{ $post->author->username }}" class="text-decoration-none text-dark small fw-bold">{{ $post->author->name }}</a>
+                                        <div class="small text-muted">{{ $post->created_at->format('M d, Y') }} · {{ $readingTime }} min read</div>
+                                    </div>
+                                </div>
                                 <p>
                                     <small class="text-muted">
                                         By.
@@ -107,7 +131,10 @@
                                         {{ $post->created_at->diffForHumans() }}
                                     </small>
                                 </p>
-                                <p class="card-text">{{ $post->excerpt }}</p>
+                                                                <p class="card-text card-excerpt">{{ $post->excerpt }}</p>
+                                                                <div class="post-tags">
+                                                                    <div class="tag">{{ $post->category->name }}</div>
+                                                                </div>
                                 <a href="/posts/{{ $post->slug }}" class="btn btn-primary">Read more</a>
                             </div>
                         </div>

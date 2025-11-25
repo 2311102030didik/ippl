@@ -117,6 +117,43 @@ body {
     transform: scale(1.03);
 }
 
+/* --- Post card meta / author --- */
+.post-meta {
+    display:flex;
+    align-items:center;
+    gap:0.75rem;
+    margin-bottom: .5rem;
+    color: rgba(20,24,62, .6);
+    font-size: .9rem;
+}
+.author-avatar {
+    width:40px;
+    height:40px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    border: 1px solid rgba(0,0,0,0.06);
+    color: var(--brand-500);
+    font-weight:700;
+}
+.card-excerpt {
+    display:-webkit-box;
+    -webkit-line-clamp:3;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+}
+
+.post-tags {
+    display:flex; gap:.6rem; flex-wrap:wrap; margin-top:.6rem;
+}
+.post-tags .tag {
+    background: rgba(15, 76, 55, 0.06);
+    color: var(--brand-500);
+    padding: .25rem .6rem; border-radius:8px; font-weight:600; font-size:.82rem;
+}
+
 /* --- Cards / post list --- */
 .card {
     border: none;
