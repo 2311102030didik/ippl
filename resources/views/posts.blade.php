@@ -46,7 +46,13 @@
         <!-- Hero Post (Post Pertama) -->
         @php
             $first = $posts[0];
-            if ($first->image) {
+            // Jika sedang memfilter berdasarkan kategori dan kategori punya gambar,
+            // gunakan gambar kategori sebagai hero agar tampilan sinkron.
+            if (isset($category) && $category && $category->image) {
+                $heroImage = Str::startsWith($category->image, 'http')
+                    ? $category->image
+                    : asset($category->image);
+            } elseif ($first->image) {
                 $heroImage = Str::startsWith($first->image, 'http')
                     ? $first->image
                     : asset('storage/' . $first->image);

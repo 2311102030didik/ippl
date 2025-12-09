@@ -8,25 +8,23 @@
 
   <div class="row g-4">
     @foreach ($categories as $category)
-      <div class="col-md-4 col-sm-6 col-12">
-        <a href="/posts?category={{ $category->slug }}" class="text-decoration-none text-white d-block h-100">
-          <div class="card bg-dark text-white border-0 rounded-4 shadow-sm overflow-hidden h-100 category-card"
-               style="transition: transform 0.3s ease, box-shadow 0.3s ease; height: 280px;">
-            
-            {{-- Gambar kategori dengan fallback yang estetis --}}
-            <img 
-              src="{{ $category->image ? asset($category->image) : 'https://via.placeholder.com/400x280/4a5568/FFFFFF?text=' . urlencode(ucfirst($category->name)) }}" 
-              class="card-img w-100" 
-              alt="{{ $category->name }}" 
-              style="height: 100%; object-fit: cover; transition: transform 0.5s ease;">
+      <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+        <a href="/posts?category={{ $category->slug }}" class="text-decoration-none d-block h-100">
+          <div class="card border-0 rounded-4 shadow-sm overflow-hidden h-100 category-card d-flex flex-column align-items-center p-3" style="min-height: 280px;">
 
-            {{-- Overlay nama kategori --}}
-            <div class="card-img-overlay d-flex align-items-end p-0">
-              <div class="w-100 p-3 bg-gradient-dark text-center">
-                <h5 class="card-title mb-0 fs-5 fw-bold text-white">
-                  {{ ucfirst($category->name) }}
-                </h5>
-              </div>
+            {{-- Gambar kategori --}}
+            <div class="category-image-wrapper d-flex align-items-center justify-content-center w-100">
+              <img 
+                src="{{ $category->image ? asset($category->image) : 'https://via.placeholder.com/400x280/4a5568/FFFFFF?text=' . urlencode(ucfirst($category->name)) }}" 
+                class="category-img"
+                alt="{{ $category->name }}">
+            </div>
+
+            {{-- Caption --}}
+            <div class="category-caption w-100 text-center mt-3">
+              <h5 class="mb-1 fw-semibold text-dark" style="letter-spacing: .2px">{{ ucfirst($category->name) }}</h5>
+              {{-- small subtitle placeholder if needed --}}
+              {{-- <p class="text-muted small mb-0">{{ $category->posts_count ?? '' }}</p> --}}
             </div>
           </div>
         </a>
@@ -36,19 +34,46 @@
 </div>
 
 <style>
-  .bg-gradient-dark {
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
-    backdrop-filter: blur(2px);
+  /* New category card styling for better UI/UX */
+  .category-image-wrapper {
+    height: 160px;
+    padding: 8px 12px;
+    overflow: hidden;
   }
 
-  .category-card:hover .card-img {
-    transform: scale(1.05);
+  .category-img {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 12px;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    box-shadow: 0 8px 18px rgba(15,23,42,0.06);
+    background: #fff;
+  }
+
+  .category-card:hover .category-img {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 18px 36px rgba(15,23,42,0.10);
+  }
+
+  .category-caption h5 {
+    font-size: 1.05rem;
+  }
+
+  .category-card {
+    transition: transform 0.28s ease, box-shadow 0.28s ease;
   }
 
   .category-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    transform: translateY(-6px);
+    box-shadow: 0 18px 36px rgba(15,23,42,0.06);
     z-index: 2;
+  }
+
+  /* Responsive tweaks */
+  @media (max-width: 576px) {
+    .category-img { width: 110px; height: 110px; }
+    .category-image-wrapper { height: 130px; }
   }
 
   body {
