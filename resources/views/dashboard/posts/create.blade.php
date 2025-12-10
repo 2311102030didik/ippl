@@ -42,13 +42,19 @@
             @enderror
         </div>
 
+        {{-- IMAGE + PREVIEW (BENAR) --}}
         <div class="mb-4">
-            <label for="image" class="form-label fw-medium">Post Image (Optional)</label>
-            <input class="form-control @error('image') is-invalid @enderror" type="file" id="image" name="image"
-                accept="image/*">
+            <label for="image" class="form-label fw-medium">Post Image </label>
+
+            <img class="img-preview img-fluid mb-3 col-sm-5">
+
+            <input class="form-control @error('image') is-invalid @enderror" 
+                type="file" id="image" name="image" onchange="previewImage()" accept="image/*">
+
             @error('image')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
+
             <div class="form-text text-muted">Max file size: 2MB. Recommended: 1200×630 px.</div>
         </div>
 
@@ -78,9 +84,25 @@
             .then(data => slug.value = data.slug)
     });
 
+    // Disable file upload in trix
     document.addEventListener('trix-file-accept', function (e) {
         e.preventDefault();
     });
+
+    // IMAGE PREVIEW FUNCTION
+    function previewImage() {
+        const image = document.querySelector('#image');
+        const imgPreview = document.querySelector('.img-preview');
+
+        imgPreview.style.display = 'block';
+
+        const oFReader = new FileReader();
+        oFReader.readAsDataURL(image.files[0]);
+
+        oFReader.onload = function(oFREvent) {
+            imgPreview.src = oFREvent.target.result;
+        }
+    }
 </script>
 
 <style>
