@@ -42,9 +42,9 @@
             @endphp
 
             <div class="rounded-4 overflow-hidden shadow-sm mb-5">
-                <img 
-                    src="{{ $imageUrl }}" 
-                    alt="{{ $post->title }}" 
+                <img
+                    src="{{ $imageUrl }}"
+                    alt="{{ $post->title }}"
                     class="img-fluid w-100"
                     style="height: auto; max-height: 500px; object-fit: cover;"
                 >
@@ -57,7 +57,7 @@
 
             <!-- Tombol Kembali -->
             <div class="mt-5 pt-4 border-top">
-                <a href="{{ route('posts.index') }}" class="btn btn-outline-primary px-4 py-2 rounded-pill">
+                <a href="/posts" class="btn btn-outline-primary px-4 py-2 rounded-pill">
                     <i class="bi bi-arrow-left me-2"></i> Kembali ke Semua Post
                 </a>
             </div>
@@ -75,13 +75,13 @@
         };
         (function() {
             var d = document, s = d.createElement('script');
-            s.src = 'https://zonadien-com.disqus.com/embed.js'; // ← pastikan TANPA spasi!
+            s.src = 'https://zonadien-com.disqus.com/embed.js';
             s.setAttribute('data-timestamp', +new Date());
             (d.head || d.body).appendChild(s);
         })();
     </script>
     <noscript>
-        Please enable JavaScript to view the 
+        Please enable JavaScript to view the
         <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
     </noscript>
 </div>

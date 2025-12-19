@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -34,8 +35,9 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             // update last login timestamp for auditing
             $user = Auth::user();
-            if ($user) {
-                $user->update(['last_login_at' => now()]);
+            if ($user instanceof User) {
+                $user->last_login_at = now();
+                $user->save();
             }
 
             $request->session()->regenerate();
