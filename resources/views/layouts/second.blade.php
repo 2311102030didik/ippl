@@ -14,7 +14,7 @@
     {{-- Custom CSS --}}
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
-    <title>Zona Dieng | {{ $title ?? 'Home' }}</title>
+    <title>Kebun kita | {{ $title ?? 'beranda' }}</title>
 
     <!-- Tambahkan yield untuk CSS tambahan (opsional) -->
     @yield('styles')
