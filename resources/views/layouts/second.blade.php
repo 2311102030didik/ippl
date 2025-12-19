@@ -11,16 +11,23 @@
     {{-- Bootstrap Icons --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 
-    {{-- My Style --}}
-    <link rel="stylesheet" href="/css/style.css">
+    {{-- Custom CSS --}}
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
-    <title>zona dieng  | {{ $title }}</title>
+    <title>Zona Dieng | {{ $title ?? 'Home' }}</title>
+
+    <!-- Tambahkan yield untuk CSS tambahan (opsional) -->
+    @yield('styles')
   </head>
   <body>
 
+    <!-- Konten Utama -->
+    @yield('content')
 
-
-
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <!-- Tambahkan yield untuk JS tambahan (opsional) -->
+    @yield('scripts')
   </body>
 </html>

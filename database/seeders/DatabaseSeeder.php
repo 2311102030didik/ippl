@@ -11,32 +11,33 @@ class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        // User manual
-        $user = User::create([
-            'name' => 'embuh',
-            'username' => 'embuh',
-            'email' => 'embuh@gmail.com',
-            'password' => bcrypt('12345')
-        ]);
+        // User manual (keep original 'embuh' account as requested)
+        // Use updateOrCreate so seeding can be run multiple times without duplicate errors
+        $user = User::updateOrCreate(
+            ['email' => 'embuh@gmail.com'],
+            [
+                'name' => 'embuh',
+                'username' => 'embuh',
+                'password' => bcrypt('12345')
+            ]
+        );
 
-        // Kategori manual
-        Category::create([
-            'name' => 'a',
-            'slug' => 'a',
-            'image' => 'assets/img/category/kimberly-farmer-lUaaKCUANVI-unsplash.jpg',
-        ]);
+        // Categories used on the site (Indonesian)
+        // idempotent category creation — won't insert duplicates on repeated seeds
+        Category::updateOrCreate(
+            ['slug' => 'tanaman-hias'],
+            ['name' => 'Tanaman Hias', 'image' => 'assets/img/category/icon1.png']
+        );
 
-        Category::create([
-            'name' => 'b',
-            'slug' => 'b',
-            'image' => 'assets/img/category/kimberly-farmer-lUaaKCUANVI-unsplash.jpg'
-        ]);
+        Category::updateOrCreate(
+            ['slug' => 'hidroponik'],
+            ['name' => 'Hidroponik', 'image' => 'assets/img/category/icon2.png']
+        );
 
-        Category::create([
-            'name' => 'c',
-            'slug' => 'c',
-            'image' => 'assets/img/category/kimberly-farmer-lUaaKCUANVI-unsplash.jpg'
-        ]);
+        Category::updateOrCreate(
+            ['slug' => 'pupuk-kompos'],
+            ['name' => 'Pupuk & Kompos', 'image' => 'assets/img/category/icon3.png']
+        );
 
 
           Post::factory(20)->create([

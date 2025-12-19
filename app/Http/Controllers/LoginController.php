@@ -21,18 +21,29 @@ class LoginController extends Controller
 
     public function authenticate(Request $request)
     {
-        $credentials = $request->validate([
-            "email" => "required|email:dns",
-            "password" => "required"
+        $data = $request->validate([
+            'login' => 'required|string', // email or username
+            'password' => 'required'
         ]);
 
-        if(Auth::attempt($credentials)){
+        // allow login using email OR username — check format and build credentials accordingly
+        $loginField = filter_var($data['login'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        $credentials = [$loginField => $data['login'], 'password' => $data['password']];
+
+        if (Auth::attempt($credentials)) {
+            // update last login timestamp for auditing
+            $user = Auth::user();
+            if ($user) {
+                $user->update(['last_login_at' => now()]);
+            }
+
             $request->session()->regenerate();
 
             return redirect()->intended('/dashboard');
         }
 
-        return back()->with('LoginError', 'Login failed!');
+        return back()->with('LoginError', 'Login gagal — periksa email/username dan kata sandi Anda.');
     }
 
     public function logout()

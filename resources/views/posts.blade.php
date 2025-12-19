@@ -5,120 +5,153 @@
 @endphp
 
 @section('container')
-    <h2 class="mb-3 text-dark text-center">{{ $title }}</h2>
+@php
+    if (isset($title) && $title === 'All Posts') {
+        $title = 'Semua Artikel';
+    }
+@endphp
 
-    <div class="row justify-content-center mb-3">
+<div class="container py-4">
+    <h2 class="mb-4 text-center fw-bold" style="font-family: 'Poppins', sans-serif; color: #2d3748;">
+        {{ $title }}
+    </h2>
+
+    <!-- Pencarian -->
+    <div class="row justify-content-center mb-5">
         <div class="col-md-6">
-            <form action="/posts">
-                @if (request('category'))
+            <form action="/posts" method="GET">
+                @if(request('category'))
                     <input type="hidden" name="category" value="{{ request('category') }}">
                 @endif
-                @if (request('author'))
+                @if(request('author'))
                     <input type="hidden" name="author" value="{{ request('author') }}">
                 @endif
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Search.." name="search"
-                        value="{{ request('search') }}">
-                    <button class="btn btn-primary" type="submit">Search</button>
+                <div class="input-group">
+                    <input 
+                        type="text" 
+                        class="form-control rounded-start-pill" 
+                        placeholder="Cari artikel..." 
+                        name="search" 
+                        value="{{ request('search') }}"
+                    >
+                    <button class="btn btn-primary rounded-end-pill px-4" type="submit">
+                        <i class="fas fa-search"></i> Cari
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 
-    @if ($posts->count())
-        <div class="card mb-3">
-            @php
-                if ($posts[0]->image) {
-                    // Jika URL dari internet (Faker/Picsum)
-                    $imageUrl = Str::startsWith($posts[0]->image, 'http')
-                        ? $posts[0]->image
-                        : asset('storage/' . $posts[0]->image);
-                } else {
-                    // Jika tidak ada gambar → fallback ke Picsum
-                    $imageUrl = 'https://picsum.photos/1200/400?random=' . rand(1, 1000);
-                }
-            @endphp
+    @if($posts->count())
+        <!-- Hero Post (Post Pertama) -->
+        @php
+            $first = $posts[0];
+            // Jika sedang memfilter berdasarkan kategori dan kategori punya gambar,
+            // gunakan gambar kategori sebagai hero agar tampilan sinkron.
+            if (isset($category) && $category && $category->image) {
+                $heroImage = Str::startsWith($category->image, 'http')
+                    ? $category->image
+                    : asset($category->image);
+            } elseif ($first->image) {
+                $heroImage = Str::startsWith($first->image, 'http')
+                    ? $first->image
+                    : asset('storage/' . $first->image);
+            } else {
+                $heroImage = 'https://picsum.photos/1200/500?random=' . rand(1, 1000);
+            }
+        @endphp
 
-            <div style="max-height: 400px; overflow: hidden;">
-                <img src="{{ $imageUrl }}" alt="{{ $posts[0]->category->name }}" class="img-fluid">
-            </div>
-
-            <div class="card-body text-center">
-                <h5 class="card-title">
-                    <a href="/posts/{{ $posts[0]->slug }}" class="text-decoration-none text-dark">
-                        {{ $posts[0]->title }}
+        <div class="card rounded-4 shadow-lg mb-5 overflow-hidden border-0">
+            <div class="position-relative">
+                <img 
+                    src="{{ $heroImage }}" 
+                    alt="{{ $first->title }}" 
+                    class="w-100" 
+                    style="height: 320px; object-fit: cover;"
+                >
+                <div class="position-absolute top-0 start-0 bg-primary px-3 py-1">
+                    <a href="/posts?category={{ $first->category->slug }}" class="text-white text-decoration-none fw-semibold">
+                        {{ $first->category->name }}
                     </a>
-                </h5>
-                <p>
-                    <small class="text-muted">
-                        By.
-                        <a href="/posts?author={{ $posts[0]->author->username }}" class="text-decoration-none">
-                            {{ $posts[0]->author->name }}
-                        </a>
-                        in
-                        <a href="/posts?category={{ $posts[0]->category->slug }}" class="text-decoration-none">
-                            {{ $posts[0]->category->name }}
-                        </a>
-                        {{ $posts[0]->created_at->diffForHumans() }}
-                    </small>
-                </p>
-
-                <p class="card-text">{{ $posts[0]->excerpt }}</p>
-                <a href="/posts/{{ $posts[0]->slug }}" class="text-decoration-none btn btn-primary">Read more</a>
+                </div>
+            </div>
+            <div class="card-body text-center p-4">
+                <h3 class="card-title fw-bold h4 mb-3">
+                    <a href="/posts/{{ $first->slug }}" class="text-dark text-decoration-none">
+                        {{ $first->title }}
+                    </a>
+                </h3>
+                <a href="/posts/{{ $first->slug }}" class="btn btn-primary px-4 py-2 rounded-pill fw-medium">
+                    Baca Selengkapnya
+                </a>
             </div>
         </div>
 
-        <div class="container">
-            <div class="row">
-                @foreach ($posts->skip(1) as $post)
-                    <div class="col-md-4 mb-3">
-                        <div class="card">
-                            <div class="position-absolute px-3 py-2"
-                                 style="background-color: rgba(0, 0, 0, 0.7)">
-                                <a href="/posts?category={{ $post->category->slug }}"
-                                   class="text-decoration-none text-white">
-                                    {{ $post->category->name }}
-                                </a>
+        <!-- Daftar Postingan Lainnya -->
+        <div class="row g-4">
+            @foreach($posts->skip(1) as $post)
+                @php
+                    $img = $post->image 
+                        ? (Str::startsWith($post->image, 'http') ? $post->image : asset('storage/' . $post->image))
+                        : 'https://picsum.photos/500/350?random=' . rand(1, 1000);
+                @endphp
+
+                <div class="col-md-4 col-sm-6 col-12">
+                    <a href="/posts/{{ $post->slug }}" class="text-decoration-none h-100">
+                        <div class="card rounded-4 border-0 shadow-sm h-100 post-card"
+                             style="transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                            <div class="position-relative">
+                                <img 
+                                    src="{{ $img }}" 
+                                    alt="{{ $post->title }}" 
+                                    class="card-img-top" 
+                                    style="height: 200px; object-fit: cover;"
+                                >
+                                <div class="position-absolute top-0 start-0 bg-primary px-2 py-1 rounded-bottom-end">
+                                    <span class="text-white fw-semibold small">
+                                        {{ $post->category->name }}
+                                    </span>
+                                </div>
                             </div>
-
-                            @php
-                                if ($post->image) {
-                                    $imageUrl = Str::startsWith($post->image, 'http')
-                                        ? $post->image
-                                        : asset('storage/' . $post->image);
-                                } else {
-                                    $imageUrl = 'https://picsum.photos/500/400?random=' . rand(1, 1000);
-                                }
-                            @endphp
-
-                            <img src="{{ $imageUrl }}" alt="{{ $post->category->name }}" class="card-img-top">
-
-                            <div class="card-body">
-                                <h5 class="card-title">{{ $post->title }}</h5>
-                                <p>
-                                    <small class="text-muted">
-                                        By.
-                                        <a href="/posts?author={{ $post->author->username }}"
-                                            class="text-decoration-none">{{ $post->author->name }}</a>
-                                        in
-                                        <a href="/categories/{{ $post->category->slug }}"
-                                            class="text-decoration-none">{{ $post->category->name }}</a>
-                                        {{ $post->created_at->diffForHumans() }}
-                                    </small>
-                                </p>
-                                <p class="card-text">{{ $post->excerpt }}</p>
-                                <a href="/posts/{{ $post->slug }}" class="btn btn-primary">Read more</a>
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title fw-bold mb-2">{{ $post->title }}</h5>
+                                <div class="mt-auto">
+                                    <span class="btn btn-outline-primary btn-sm rounded-pill px-3">
+                                        Baca Selengkapnya
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
-            </div>
+                    </a>
+                </div>
+            @endforeach
         </div>
+
     @else
-        <p class="text-center fs-4">No post found.</p>
+        <div class="text-center py-5">
+            <p class="fs-4 text-muted">Tidak ada postingan ditemukan.</p>
+        </div>
     @endif
 
-    <div class="d-flex justify-content-end">
+    <!-- Pagination -->
+    <div class="mt-5 d-flex justify-content-center">
         {{ $posts->links() }}
     </div>
+</div>
+
+<style>
+    .post-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+    }
+    .card-img-top {
+        transition: transform 0.4s ease;
+    }
+    .post-card:hover .card-img-top {
+        transform: scale(1.03);
+    }
+    body {
+        font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+</style>
 @endsection

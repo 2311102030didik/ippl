@@ -11,19 +11,17 @@ class PostFactory extends Factory
 
     public function definition()
     {
-        // Pilih kategori acak
-        $categories = ['homestay', 'wisata', 'personal'];
-        $category = $this->faker->randomElement($categories);
+        // Use Indonesian locale faker so seeded posts read like real Indonesian content
+        $fakerId = \Faker\Factory::create('id_ID');
 
-        
-        $imageKeyword = $this->faker->randomElement(['homestay', 'wisata', 'nature', 'mountain', 'hotel']);
-        $image = "https://picsum.photos/seed/" . rand(1, 9999) . "/640/480";
+        $imageKeyword = $fakerId->randomElement(['tanaman', 'kebun', 'hidroponik', 'kompos', 'hortikultura']);
+        $image = "https://picsum.photos/seed/" . rand(1, 9999) . "/1200/800";
 
         return [
-            'title' => $this->faker->sentence(mt_rand(2, 8)),
-            'slug' => $this->faker->slug(),
-            'excerpt' => $this->faker->paragraph(),
-            'body' => collect($this->faker->paragraphs(mt_rand(5, 10)))
+            'title' => $fakerId->sentence(mt_rand(4, 8)),
+            'slug' => \Illuminate\Support\Str::slug($fakerId->unique()->sentence(mt_rand(3,6))),
+            'excerpt' => $fakerId->paragraph(mt_rand(1,2)),
+            'body' => collect($fakerId->paragraphs(mt_rand(5, 8)))
                 ->map(fn($p) => "<p>$p</p>")
                 ->implode(''),
             'user_id' => mt_rand(1, 3),
