@@ -27,11 +27,11 @@
                     <input type="hidden" name="author" value="{{ request('author') }}">
                 @endif
                 <div class="input-group">
-                    <input 
-                        type="text" 
-                        class="form-control rounded-start-pill" 
-                        placeholder="Cari artikel..." 
-                        name="search" 
+                    <input
+                        type="text"
+                        class="form-control rounded-start-pill"
+                        placeholder="Cari artikel..."
+                        name="search"
                         value="{{ request('search') }}"
                     >
                     <button class="btn btn-primary rounded-end-pill px-4" type="submit">
@@ -46,8 +46,7 @@
         <!-- Hero Post (Post Pertama) -->
         @php
             $first = $posts[0];
-            // Jika sedang memfilter berdasarkan kategori dan kategori punya gambar,
-            // gunakan gambar kategori sebagai hero agar tampilan sinkron.
+
             if (isset($category) && $category && $category->image) {
                 $heroImage = Str::startsWith($category->image, 'http')
                     ? $category->image
@@ -63,10 +62,10 @@
 
         <div class="card rounded-4 shadow-lg mb-5 overflow-hidden border-0">
             <div class="position-relative">
-                <img 
-                    src="{{ $heroImage }}" 
-                    alt="{{ $first->title }}" 
-                    class="w-100" 
+                <img
+                    src="{{ $heroImage }}"
+                    alt="{{ $first->title }}"
+                    class="w-100"
                     style="height: 320px; object-fit: cover;"
                 >
                 <div class="position-absolute top-0 start-0 bg-primary px-3 py-1">
@@ -91,7 +90,7 @@
         <div class="row g-4">
             @foreach($posts->skip(1) as $post)
                 @php
-                    $img = $post->image 
+                    $img = $post->image
                         ? (Str::startsWith($post->image, 'http') ? $post->image : asset('storage/' . $post->image))
                         : 'https://picsum.photos/500/350?random=' . rand(1, 1000);
                 @endphp
@@ -101,10 +100,10 @@
                         <div class="card rounded-4 border-0 shadow-sm h-100 post-card"
                              style="transition: transform 0.3s ease, box-shadow 0.3s ease;">
                             <div class="position-relative">
-                                <img 
-                                    src="{{ $img }}" 
-                                    alt="{{ $post->title }}" 
-                                    class="card-img-top" 
+                                <img
+                                    src="{{ $img }}"
+                                    alt="{{ $post->title }}"
+                                    class="card-img-top"
                                     style="height: 200px; object-fit: cover;"
                                 >
                                 <div class="position-absolute top-0 start-0 bg-primary px-2 py-1 rounded-bottom-end">

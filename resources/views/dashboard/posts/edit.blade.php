@@ -5,54 +5,56 @@
     <h1 class="h2 fw-bold text-primary">Edit Post</h1>
 </div>
 
+{{-- FORM EDIT POST --}}
 <div class="col-lg-8">
-    <form method="post" 
-          action="/dashboard/posts/{{ $post->slug }}" 
-          class="mb-5" 
+    <form method="POST"
+          action="/dashboard/posts/{{ $post->slug }}"
+          class="mb-5"
           enctype="multipart/form-data">
-        
-        @method('put')
+
+        {{-- METHOD PUT untuk UPDATE --}}
+        @method('PUT')
         @csrf
 
-        {{-- TITLE --}}
+        {{-- 1. JUDUL POST --}}
         <div class="mb-4">
-            <label for="title" class="form-label fw-medium">Title</label>
-            <input type="text" 
-                   class="form-control @error('title') is-invalid @enderror" 
-                   id="title" 
+            <label for="title" class="form-label fw-medium">Judul Post</label>
+            <input type="text"
+                   class="form-control @error('title') is-invalid @enderror"
+                   id="title"
                    name="title"
-                   value="{{ old('title', $post->title) }}" 
+                   value="{{ old('title', $post->title) }}"
                    required>
             @error('title')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
-        {{-- SLUG --}}
+        {{-- 2. SLUG --}}
         <div class="mb-4">
             <label for="slug" class="form-label fw-medium">Slug</label>
-            <input type="text" 
-                   class="form-control @error('slug') is-invalid @enderror" 
-                   id="slug" 
+            <input type="text"
+                   class="form-control @error('slug') is-invalid @enderror"
+                   id="slug"
                    name="slug"
-                   value="{{ old('slug', $post->slug) }}" 
+                   value="{{ old('slug', $post->slug) }}"
                    required>
             @error('slug')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
-        {{-- CATEGORY --}}
+        {{-- 3. KATEGORI --}}
         <div class="mb-4">
-            <label for="category_id" class="form-label fw-medium">Category</label>
-            <select class="form-select @error('category_id') is-invalid @enderror" 
-                    id="category_id" 
-                    name="category_id" 
+            <label for="category_id" class="form-label fw-medium">Kategori</label>
+            <select class="form-select @error('category_id') is-invalid @enderror"
+                    id="category_id"
+                    name="category_id"
                     required>
-                <option value="">Select a category</option>
+                <option value="">Pilih Kategori...</option>
                 @foreach ($categories as $category)
                     <option value="{{ $category->id }}"
-                        {{ old('category_id', $post->category_id) == $category->id ? 'selected' : '' }}>
+                            {{ old('category_id', $post->category_id) == $category->id ? 'selected' : '' }}>
                         {{ $category->name }}
                     </option>
                 @endforeach
@@ -62,70 +64,77 @@
             @enderror
         </div>
 
-        {{-- IMAGE --}}
+        {{-- 4. GAMBAR (TAMPILKAN GAMBAR LAMA + UPLOAD BARU) --}}
         <div class="mb-4">
-            <label for="image" class="form-label fw-medium">Post Image</label>
+            <label for="image" class="form-label fw-medium">Gambar Post</label>
 
-            {{-- Simpan path gambar lama --}}
+            {{-- SIMPAN PATH GAMBAR LAMA --}}
             <input type="hidden" name="oldImage" value="{{ $post->image }}">
 
-            {{-- Tampilkan gambar lama --}}
+            {{-- TAMPILKAN GAMBAR LAMA --}}
             @if ($post->image)
-                <img src="{{ asset('storage/' . $post->image) }}" 
-                     class="img-preview img-fluid mb-3 col-sm-5 d-block">
+                <img src="{{ asset('storage/' . $post->image) }}"
+                     class="img-preview img-fluid mb-3 col-sm-5 d-block"
+                     alt="Gambar lama">
+                <small class="text-muted">Gambar lama akan diganti kalau upload baru</small>
             @else
-                <img class="img-preview img-fluid mb-3 col-sm-5">
+                <img class="img-preview img-fluid mb-3 col-sm-5" style="display: none;">
             @endif
 
-            <input class="form-control @error('image') is-invalid @enderror" 
-                type="file" id="image" name="image" onchange="previewImage()" accept="image/*">
+            {{-- UPLOAD GAMBAR BARU --}}
+            <input class="form-control @error('image') is-invalid @enderror"
+                   type="file"
+                   id="image"
+                   name="image"
+                   onchange="previewImage()"
+                   accept="image/*">
 
             @error('image')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
+            <div class="form-text text-muted">Max: 5MB. Rekomendasi: 1200×630 px</div>
         </div>
 
-        {{-- BODY --}}
+        {{-- 5. ISI POST --}}
         <div class="mb-4">
-            <label for="body" class="form-label fw-medium">Content</label>
+            <label for="body" class="form-label fw-medium">Isi Post</label>
             @error('body')
                 <div class="text-danger mb-2">{{ $message }}</div>
             @enderror
 
-            <input id="body" 
-                   type="hidden" 
-                   name="body" 
+            <input id="body"
+                   type="hidden"
+                   name="body"
                    value="{{ old('body', $post->body) }}">
-
             <trix-editor input="body" class="trix-content"></trix-editor>
         </div>
 
-        {{-- BUTTON --}}
+        {{-- 6. BUTTON --}}
         <div class="d-flex justify-content-end gap-2">
-            <a href="/dashboard/posts" class="btn btn-outline-secondary">Cancel</a>
+            <a href="/dashboard/posts" class="btn btn-outline-secondary">Batal</a>
             <button type="submit" class="btn btn-warning px-4 text-white">Update Post</button>
         </div>
-
     </form>
 </div>
 
+{{-- JAVASCRIPT --}}
 <script>
+    // 1. AUTO GENERATE SLUG
     const title = document.querySelector('#title');
     const slug = document.querySelector('#slug');
 
-    // Auto generate slug
     title.addEventListener('change', function () {
         fetch('/dashboard/posts/checkSlug?title=' + encodeURIComponent(title.value))
             .then(response => response.json())
             .then(data => slug.value = data.slug);
     });
 
-    // Disable file upload di trix
+    // 2. DISABLE upload gambar di Trix
     document.addEventListener('trix-file-accept', function (e) {
         e.preventDefault();
     });
 
-    // Preview image
+    // 3. PREVIEW GAMBAR BARU (ganti gambar lama)
     function previewImage() {
         const image = document.querySelector('#image');
         const imgPreview = document.querySelector('.img-preview');
@@ -137,10 +146,11 @@
 
         oFReader.onload = function(oFREvent) {
             imgPreview.src = oFREvent.target.result;
-        }
+        };
     }
 </script>
 
+{{-- CSS TRIX --}}
 <style>
     .trix-button-row {
         background-color: #f8f9fa;
@@ -149,6 +159,7 @@
     .trix-content {
         border: 1px solid #ced4da;
         border-radius: 0.375rem;
+        min-height: 300px;
     }
 </style>
 
