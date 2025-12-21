@@ -3,122 +3,83 @@
 @section('title', 'Kebun Kita - Tanaman di Kota')
 
 @section('content')
-@php
-    use Illuminate\Support\Str;
-    use Illuminate\Support\Facades\File;
-
-    // HERO IMAGE LOGIC
-    $first = $latestPosts->first();
-
-    if ($first && $first->category && $first->category->image) {
-        $heroImage = Str::startsWith($first->category->image, 'http')
-            ? $first->category->image
-            : asset($first->category->image);
-
-    } elseif ($first && $first->image && File::exists(public_path('storage/'.$first->image))) {
-        $heroImage = asset('storage/'.$first->image);
-
-    } else {
-        $heroImage = 'https://picsum.photos/1200/500?random=99';
-    }
-@endphp
-
 <main class="main" id="top">
-
-  <!-- NAVBAR -->
-  <nav class="navbar navbar-expand-lg navbar-light fixed-top py-4">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top py-4" data-navbar-on-scroll="data-navbar-on-scroll">
     <div class="container">
       <a class="navbar-brand" href="/">
-        <img src="{{ asset('assets/img/logo-kebunkita.png') }}" height="60">
+        <img src="{{ asset('assets/img/logo-kebunkita.png') }}" height="60" alt="logo" />
       </a>
-      <div class="collapse navbar-collapse">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="/posts">Blog</a></li>
-          <li class="nav-item"><a class="nav-link" href="/categories">Category</a></li>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse mt-3 mt-lg-0" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto align-items-lg-center align-items-start">
+          <li class="nav-item px-3"><a class="nav-link fw-medium" href="/">Home</a></li>
+          <li class="nav-item px-3"><a class="nav-link fw-medium" href="/posts">Blog</a></li>
+          <li class="nav-item px-3"><a class="nav-link fw-medium" href="/categories">Category</a></li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <!-- HERO -->
+  <!-- Hero Section -->
   <section class="pt-7 mt-5">
     <div class="container">
       <div class="row align-items-center">
-        <div class="col-md-6 py-6">
-          <h1 class="fw-bold text-success">
-            Kebun Kita, Tanaman di Kota
-          </h1>
-          <p class="text-secondary">
-            Kami membahas tips & informasi berkebun di ruang terbatas.
+        <div class="col-md-6 text-md-start text-center py-6">
+          <h1 class="hero-title mb-3 fw-bold text-success">Kebun Kita, Tanaman di Kota</h1>
+          <p class="mb-4 fw-medium text-secondary">
+            Kami membahas berbagai tips dan informasi seputar tanaman dalam kota.
+            Melalui artikel dan panduan praktis, Kebun Kita menginspirasi masyarakat
+            untuk berkebun di ruang terbatas dan menciptakan lingkungan yang lebih hijau.
           </p>
-          <a href="/posts" class="btn btn-primary btn-lg">
+          <a class="btn btn-primary btn-lg border-0 primary-btn-shadow" href="/posts" role="button">
             Baca Selengkapnya
           </a>
         </div>
-
         <div class="col-md-6 text-center">
-          <img
-            src="{{ $heroImage }}"
-            class="img-fluid rounded-3 shadow-sm"
-            style="max-height:320px; object-fit:cover;"
-          >
+          <img class="img-fluid rounded-3 shadow-sm" src="{{ asset('assets/img/logo-hero.png') }}" alt="Tanaman Perkotaan">
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ARTIKEL TERBARU -->
-  <section class="pt-5 pb-7">
+  <!-- Artikel Terpopuler -->
+  <section class="pt-5 pb-7" id="destination">
     <div class="container">
       <div class="text-center mb-5">
-        <h3 class="fw-bold text-success">
-          Artikel Terbaru
-        </h3>
+        <h3 class="fs-2 fw-bold text-success font-cursive">Artikel Terpopuler</h3>
       </div>
+      <div class="row">
+        @if($latestPosts->count())
+  <div class="row g-4">
+    @foreach($latestPosts as $post)
+      <div class="col-md-4">
+        <a href="/posts/{{ $post->slug }}" class="text-decoration-none">
+          <div class="card h-100 shadow-sm border-0">
+            <img src="{{ $post->image
+                ? asset('storage/'.$post->image)
+                : 'https://picsum.photos/500/300' }}"
+                class="card-img-top"
+                style="height:200px; object-fit:cover">
 
-      @if($latestPosts->count())
-        <div class="row g-4">
-          @foreach($latestPosts as $post)
-
-            @php
-              // CARD IMAGE LOGIC (ANTI BROKEN)
-              if ($post->image && File::exists(public_path('storage/'.$post->image))) {
-                  $postImage = asset('storage/'.$post->image);
-              } else {
-                  $postImage = 'https://picsum.photos/500/300?random='.$post->id;
-              }
-            @endphp
-
-            <div class="col-md-4">
-              <a href="/posts/{{ $post->slug }}" class="text-decoration-none">
-                <div class="card h-100 shadow-sm border-0">
-                  <img
-                    src="{{ $postImage }}"
-                    class="card-img-top"
-                    style="height:200px; object-fit:cover"
-                    alt="{{ $post->title }}"
-                  >
-
-                  <div class="card-body">
-                    <h5 class="fw-bold text-secondary">
-                      {{ $post->title }}
-                    </h5>
-                    <span class="btn btn-sm btn-outline-primary rounded-pill mt-2">
-                      Baca Selengkapnya
-                    </span>
-                  </div>
-                </div>
-              </a>
+            <div class="card-body">
+              <h5 class="fw-bold">{{ $post->title }}</h5>
+              <span class="btn btn-sm btn-outline-primary rounded-pill">
+                Baca Selengkapnya
+              </span>
             </div>
+          </div>
+        </a>
+      </div>
+    @endforeach
+  </div>
+@endif
 
-          @endforeach
-        </div>
-      @else
-        <p class="text-center text-muted">
-          Belum ada artikel.
-        </p>
-      @endif
+      </div>
     </div>
   </section>
 
