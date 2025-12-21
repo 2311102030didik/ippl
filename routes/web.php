@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Category;
-
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\LoginController;
@@ -19,17 +19,7 @@ use App\Http\Controllers\DashboardPostController;
 |
 */
 
-Route::get('/', function () {
-    return view('home', [
-        "title" => "Home",
-    ]);
-});
-
-Route::get('/about', function () {
-    return view('about', [
-        "title" => "about",
-    ]);
-});
+Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/categories', function () {
     return view('categories', [
@@ -60,31 +50,31 @@ if (app()->environment(['local', 'testing']) || env('APP_DEBUG', false)) {
     // Root route untuk coverage-report
     Route::get('/coverage-report', function () {
         $coveragePath = base_path('coverage-report/index.html');
-        
+
         if (!file_exists($coveragePath)) {
             return response('Coverage report not found. Please run: <code>php artisan test --coverage-html coverage-report</code>', 404)
                 ->header('Content-Type', 'text/html');
         }
-        
+
         return response()->file($coveragePath, ['Content-Type' => 'text/html']);
     });
-    
+
     // Route untuk file-file di dalam coverage-report (CSS, JS, images, dll)
     Route::get('/coverage-report/{path}', function ($path) {
         $coveragePath = base_path('coverage-report/' . $path);
-        
+
         // Security: prevent directory traversal
         $coveragePath = realpath($coveragePath);
         $basePath = realpath(base_path('coverage-report'));
-        
+
         if (!$coveragePath || strpos($coveragePath, $basePath) !== 0) {
             abort(404);
         }
-        
+
         if (!file_exists($coveragePath)) {
             abort(404);
         }
-        
+
         // Determine content type
         $extension = strtolower(pathinfo($coveragePath, PATHINFO_EXTENSION));
         $contentTypes = [
@@ -98,9 +88,9 @@ if (app()->environment(['local', 'testing']) || env('APP_DEBUG', false)) {
             'svg' => 'image/svg+xml',
             'json' => 'application/json',
         ];
-        
+
         $contentType = $contentTypes[$extension] ?? 'application/octet-stream';
-        
+
         return response()->file($coveragePath, ['Content-Type' => $contentType]);
     })->where('path', '.*');
 }

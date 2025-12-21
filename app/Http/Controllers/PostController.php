@@ -51,7 +51,7 @@ class PostController extends Controller
     public function show(Post $post)
     {
         if (!session()->has("viewed_post_{$post->id}")) {
-        $post->increment('views');
+
         session()->put("viewed_post_{$post->id}", true);
     }
         return view('post', [
